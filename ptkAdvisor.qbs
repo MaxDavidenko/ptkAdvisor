@@ -6,6 +6,7 @@ Product
     Depends {name: "cpp"}
     Depends {name: "xlnt"}
     Depends {name: "tinyxml2"}
+    Depends {name: "xlsxwriter++"}
 
     cpp.cxxLanguageVersion: "c++17"
     cpp.includePaths: "include"

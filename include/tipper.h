@@ -1,6 +1,7 @@
 #ifndef TIPPER_H
 #define TIPPER_H
 #include "imachine.h"
+#include<string>
 
 namespace machine {
 
@@ -28,6 +29,7 @@ public:
     double getParam(tipperT num);
     virtual ~Tipper();
 private:
+    std::string machineName;
     std::vector<double> params;
 };
 }

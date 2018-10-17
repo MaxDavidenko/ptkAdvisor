@@ -1,6 +1,7 @@
 #ifndef LOADINGTRANSPORT_H
 #define LOADINGTRANSPORT_H
 #include "imachine.h"
+#include<string>
 
 namespace machine
 {
@@ -21,11 +22,10 @@ enum loadingT
     A, // объем земляных работ, м3
     Wp // мощность двигателя погрузчика, квт
 };
-
 class LoadingTransport : public IMachine
 {
 public:
-    LoadingTransport();
+    explicit LoadingTransport(std::string name="");
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;
@@ -33,6 +33,7 @@ public:
     double getParam(loadingT num);
     virtual ~LoadingTransport();
 private:
+    std::string machineName;
     std::vector<double> params;
 };
 }

@@ -1,6 +1,9 @@
 [requires]
 tinyxml2/6.2.0@nicolastagliani/stable
-xlnt/1.3.0@krabio/testing
+log4cplus/2.0.2@bincrafters/stable
+xlsxwriter++/1.0@krabio/testing
+
+xlnt/dev@krabio/testing
 
 
 [generators]
