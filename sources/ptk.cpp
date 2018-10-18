@@ -93,26 +93,21 @@ bool PrepareExportToExel(xlsxwriter::Workbook& wb, const std::string& path, cons
 {
 
     xlsxwriter::Worksheet ws = wb.get_worksheet_by_name("sheet");
+    ws.activate();
 
+    size_t internalIndex = index;
 
-    //        ws.cell(textPosition + std::to_string(index++)).value("L=");
-    //        ws.cell(textPosition + std::to_string(index++)).value("T=");
-    //        ws.cell(textPosition + std::to_string(index)).value("Gamma=");
+    for (const auto& col : columnNames)
+    {
+        ws.write_string(internalIndex++, 0, col);
+    }
 
-    //        sindex = index;
+    ws.set_column(0, 0, 70);
 
     for (auto param: params)
     {
-        //            std::string pos = textPosition + std::to_string(index);
-        ws.write_number(2, index, param);
-        ++index;
+        ws.write_number( index++, 1, param);
     }
-    /*try {
-        wb.save(filename);
-
-    } catch (const std::exception& ex) {
-        std::cerr << ex.what();
-    }*/
 
     return true;
 }
@@ -127,27 +122,24 @@ machine::PTK::PTK(std::vector<int>&& _earthTransportingLengths, MachineComplex_m
 
 }
 
-void machine::PTK::ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t verticalOffset)
+void machine::PTK::ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t& rowPosition)
 {
-    //    wb.load(path.data());
     xlsxwriter::Worksheet ws = wb.get_worksheet_by_name("sheet");
 
-    xlsxwriter::Row startChar = 2;
-    xlsxwriter::Column startOffset = verticalOffset;
+    xlsxwriter::Row startColumn = 1;
+    xlsxwriter::Column startRow = rowPosition;
+
     //check file existing. If file exist - write on the new ws. Either - write on the active ws.
     for (auto&& complex : complexes)
     {
         for (const double& paramValue : complex)
         {
-            ws.write_number(startChar, startOffset, paramValue);
+            ws.write_number(startRow++, startColumn,  paramValue);
         }
-        ++startChar;
-        startOffset = verticalOffset;
+        startRow = rowPosition;
+        ++startColumn;
     }
-    //    ws.cell("C3").formula("=RAND()");
-    //    ws.merge_cells("C3:C4");
-    //    ws.freeze_panes("B2");
-    //    wb.save(path.data());
+    rowPosition += columnNames.size();
 }
 
 
@@ -177,8 +169,6 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
     size_t cell_x = 1;
     for (auto workWay: earthTransportingLengths)
     {
-
-
         for (const auto& [tipper, loadingTransports]: machineComplex)
         {
             ExportComplex_vec exportComplex;
@@ -191,7 +181,7 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
             PrepareExportToExel(wb, path, params, cell_x);
             ExportToXlsx(wb,"", exportComplex, cell_x);
         }
-        cell_x += 25;
+        cell_x += 10;
     }
 }
 

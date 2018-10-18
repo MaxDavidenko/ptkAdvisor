@@ -47,7 +47,7 @@ class PTK: public IMachine
 {
 public:
     PTK(std::vector<int>&& earthTransportingLengths, MachineComplex_map&& map);
-    void ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t verticalOffset);
+    void ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t &verticalOffset);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;

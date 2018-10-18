@@ -11,12 +11,7 @@
 int main()
 {
     std::cout << "Hello World!" << std::endl;
-//    xlnt::workbook wb;
-//     tinyxml2::XMLDocument xml_doc;
-//    machine::LoadingTransport t("loadingT");
-////    auto path = std::experimental::filesystem::v1::current_path();
-////    t.Export("loadingT.xml");
-//      t.Import("loadingT.xml");
+
     std::vector<std::shared_ptr<machine::LoadingTransport>> transport(5, std::shared_ptr<machine::LoadingTransport>{new machine::LoadingTransport()} );
     std::shared_ptr<machine::Tipper> tipper(new machine::Tipper());
     machine::MachineComplex_map myMap( {{tipper, transport}});
