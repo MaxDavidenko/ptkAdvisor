@@ -1,9 +1,25 @@
 Product
 {
+    files: [
+        "sources/gui/PTKMainStackForm.cpp",
+        "sources/gui/PTKMainStackForm.h",
+        "sources/gui/PTKMainStackForm.ui",
+    ]
+    Group
+    {
+        name: "GUI"
+        files:[
+            "sources/gui/ptkAdvisorMainWindow.cpp",
+            "sources/gui/ptkAdvisorMainWindow.h",
+            "sources/gui/ptkAdvisorMainWindow.ui",
+        ]
+    }
+
     name: "ptkAdvisor"
     type: "application"
 
     Depends {name: "cpp"}
+    Depends { name: "Qt"; submodules: [ "core", "gui", "widgets"] }
     Depends {name: "xlnt"}
     Depends {name: "tinyxml2"}
     Depends {name: "xlsxwriter++"}

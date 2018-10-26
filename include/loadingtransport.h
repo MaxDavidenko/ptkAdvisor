@@ -22,6 +22,9 @@ enum loadingT
     A, // объем земляных работ, м3
     Wp // мощность двигателя погрузчика, квт
 };
+
+const size_t LoadingTransportParamsSize = 13;
+
 class LoadingTransport : public IMachine
 {
 public:
