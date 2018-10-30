@@ -23,17 +23,20 @@ enum loadingT
     Wp // мощность двигателя погрузчика, квт
 };
 
+
 const size_t LoadingTransportParamsSize = 13;
 
 class LoadingTransport : public IMachine
 {
 public:
     explicit LoadingTransport(std::string name="");
+    explicit LoadingTransport(const std::string& name, std::vector<double> _params);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;
     void setParam(loadingT num, double value);
     double getParam(loadingT num);
+    inline const std::vector<double> getParams() { return params;}
     virtual ~LoadingTransport();
 private:
     std::string machineName;

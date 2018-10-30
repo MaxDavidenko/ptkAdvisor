@@ -22,11 +22,13 @@ class Tipper: public IMachine
 {
 public:
     Tipper();
+    explicit Tipper(const std::string& name, const std::vector<double>& params);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;
     void setParam(tipperT num, double value);
     double getParam(tipperT num);
+    inline const std::vector<double> getParams() { return params;}
     virtual ~Tipper();
 private:
     std::string machineName;

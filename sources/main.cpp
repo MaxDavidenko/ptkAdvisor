@@ -7,23 +7,30 @@
 #include "ptk.h"
 #include <experimental/filesystem>
 #include <xlsxwriterpp/workbook.hpp>
+#include "gui/ptkAdvisorMainWindow.h"
+#include <QApplication>
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!" << std::endl;
+    QApplication a(argc, argv);
+    ptkAdvisorMainWindow w;
+    w.show();
 
-    std::vector<std::shared_ptr<machine::LoadingTransport>> transport(5, std::shared_ptr<machine::LoadingTransport>{new machine::LoadingTransport()} );
-    std::shared_ptr<machine::Tipper> tipper(new machine::Tipper());
-    machine::MachineComplex_map myMap( {{tipper, transport}});
-    machine::PTK ptk(std::vector<int>(5, rand()), std::move(myMap));
-    std::string path("exportExample.xlsx");
+    return a.exec();
 
-    xlsxwriter::Workbook myWorkBook("1test.xlsx");
-    xlsxwriter::Worksheet sheet = myWorkBook.add_worksheet("sheet");
+//    std::cout << "Hello World!" << std::endl;
 
-    ptk.Processing(myWorkBook, path);
-    myWorkBook.close();
+//    std::vector<std::shared_ptr<machine::LoadingTransport>> transport(5, std::shared_ptr<machine::LoadingTransport>{new machine::LoadingTransport()} );
+//    std::shared_ptr<machine::Tipper> tipper(new machine::Tipper());
+//    machine::MachineComplex_map myMap( {{tipper, transport}});
+//    machine::PTK ptk(std::vector<int>(5, rand()), std::move(myMap));
+//    std::string path("exportExample.xlsx");
 
-    return 0;
+//    xlsxwriter::Workbook myWorkBook("1test.xlsx");
+//    xlsxwriter::Worksheet sheet = myWorkBook.add_worksheet("sheet");
+
+//    ptk.Processing(myWorkBook, path);
+//    myWorkBook.close();
+
 }
 

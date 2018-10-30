@@ -26,6 +26,11 @@ machine::LoadingTransport::LoadingTransport(std::string name): machineName(name)
 
 }
 
+machine::LoadingTransport::LoadingTransport(const std::string& name, std::vector<double> _params): machineName(name), params(_params)
+{
+
+}
+
 bool machine::LoadingTransport::Export(std::string_view path)
 {
     tinyxml2::XMLDocument doc;

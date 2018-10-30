@@ -5,10 +5,11 @@
 ptkAdvisorMainWindow::ptkAdvisorMainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ptkAdvisorMainWindow),
-    stackForm(new PTKMainStackForm(this))
+    stackForm(new PTKMainStackForm())
 {
     ui->setupUi(this);
     stackForm->hide();
+
 }
 
 ptkAdvisorMainWindow::~ptkAdvisorMainWindow()
@@ -19,4 +20,5 @@ ptkAdvisorMainWindow::~ptkAdvisorMainWindow()
 void ptkAdvisorMainWindow::on_pushButton_clicked()
 {
     stackForm->show();
+    this->hide();
 }
