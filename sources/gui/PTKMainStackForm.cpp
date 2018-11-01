@@ -11,10 +11,11 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QString>
+#include <QGridLayout>
 
 namespace
 {
-enum StackPages  {MAIN_PAGE, INPUT_DATA_PAGE, PROCESSING_PAGE, GROUP_PAGE};
+enum StackPages  {MAIN_PAGE, INPUT_DATA_PAGE_LOADT, INPUT_DATA_PAGE_TT, PROCESSING_PAGE, GROUP_PAGE};
 
 QHBoxLayout* CreateHBoxWithLabelAndEdit(std::string_view labelName)
 {
@@ -48,6 +49,23 @@ void FillInputPage(const std::vector<std::string_view>& labelsNames,
         secondInputVLayout->addLayout(value);
     }
 }
+
+// using QLayoutItem *QGridLayout::itemAtPosition(int row, int column)
+void clearInputPage(QGridLayout* parent)
+{
+    //clear tippers by using rowcount/columncount methods
+    auto columntCount = parent->columnCount();
+    auto rowCount = parent->rowCount();
+
+    for (int i = 0; i < rowCount; ++i)
+    {
+        QLineEdit* edit1 = dynamic_cast<QLineEdit*>(parent->itemAtPosition(i, 0)->widget());
+        QLineEdit* edit2 = dynamic_cast<QLineEdit*>(parent->itemAtPosition(i, columntCount - 1)->widget());
+        edit1->clear();
+        edit2->clear();
+    }
+}
+
 
 std::vector<double> AcquireInputData(QVBoxLayout* firstInputVLayout,
                                      QVBoxLayout* secondInputVLayout)
@@ -129,20 +147,23 @@ PTKMainStackForm::~PTKMainStackForm()
 void PTKMainStackForm::on_inputLoadTransportBtn_clicked()
 {
     auto * stackedWidget = ui->mainStackedWidget;
-    stackedWidget->setCurrentIndex(INPUT_DATA_PAGE);
 
-    if (ui->firstInputVLayout->children().size() > 0)
-    {
-        qDeleteAll(ui->firstInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
-        qDeleteAll(ui->firstInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
-        qDeleteAll(ui->secondInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
-    qDeleteAll(ui->secondInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
-    }
+    clearInputPage(ui->inputCellsLTGridLayout);
 
-    FillInputPage(machine::utils::getLTExportNames(),
-                  ui->inputCellsVLayout,
-                  ui->firstInputVLayout,
-                  ui->secondInputVLayout);
+    stackedWidget->setCurrentIndex(INPUT_DATA_PAGE_LOADT);
+
+//    if (ui->firstInputVLayout->children().size() > 0)
+//    {
+//        qDeleteAll(ui->firstInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
+//        qDeleteAll(ui->firstInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+//        qDeleteAll(ui->secondInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
+//    qDeleteAll(ui->secondInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
+//    }
+
+//    FillInputPage(machine::utils::getLTExportNames(),
+//                  ui->inputCellsVLayout,
+//                  ui->firstInputVLayout,
+//                  ui->secondInputVLayout);
 }
 
 void PTKMainStackForm::on_backToMainPage_clicked()
@@ -153,19 +174,21 @@ void PTKMainStackForm::on_backToMainPage_clicked()
 void PTKMainStackForm::on_inputTipperBtn_clicked()
 {
     auto * stackedWidget = ui->mainStackedWidget;
-    stackedWidget->setCurrentIndex(INPUT_DATA_PAGE);
 
-    FillInputPage(machine::utils::getTTExportNames(),
-                  ui->inputCellsVLayout,
-                  ui->firstInputVLayout,
-                  ui->secondInputVLayout);
+    clearInputPage(ui->inputCellsTTGridLayout);
+
+    stackedWidget->setCurrentIndex(INPUT_DATA_PAGE_TT);
+
+
+
+
 }
 
 void PTKMainStackForm::on_processingBtn_clicked()
 {
     ui->mainStackedWidget->setCurrentIndex(PROCESSING_PAGE);
 
-    std::vector<double> params = AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
+    std::vector<double> params;//= AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
 
     if (inputDataTipper)
     {
@@ -184,18 +207,18 @@ void PTKMainStackForm::on_importDataButton_clicked()
     {
         machine::Tipper tipper;
         tipper.Import(path.toStdString());
-        ImportAquiredData(tipper.getParams(),
-                          ui->firstInputVLayout,
-                          ui->secondInputVLayout);
+//        ImportAquiredData(tipper.getParams(),
+//                          ui->firstInputVLayout,
+//                          ui->secondInputVLayout);
 
-    }
-    else
-    {
-        machine::LoadingTransport loadT;
-        loadT.Import(path.toStdString());
-        ImportAquiredData(loadT.getParams(),
-                          ui->firstInputVLayout,
-                          ui->secondInputVLayout);
+//    }
+//    else
+//    {
+//        machine::LoadingTransport loadT;
+//        loadT.Import(path.toStdString());
+//        ImportAquiredData(loadT.getParams(),
+//                          ui->firstInputVLayout,
+//                          ui->secondInputVLayout);
 
     }
 }
@@ -205,7 +228,7 @@ void PTKMainStackForm::on_exportDataButton_clicked()
     auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("XML Files (*.xml)"));
     if (inputDataTipper)
     {
-        std::vector<double> params = AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
+        std::vector<double> params;// = AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
         //        auto name = params[0]; handle names for tippers and loaders
         params.erase(params.begin());
 
@@ -214,7 +237,7 @@ void PTKMainStackForm::on_exportDataButton_clicked()
     }
     else
     {
-        std::vector<double> params = AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
+        std::vector<double> params; //= AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
         machine::LoadingTransport loadT("loader",params);
         loadT.Export(path.toStdString());
     }
