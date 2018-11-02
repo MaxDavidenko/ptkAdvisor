@@ -2,7 +2,9 @@
 #include "ui_PTKMainStackForm.h"
 #include "loadingtransport.h"
 #include "tipper.h"
+#include "ptk.h"
 #include "ptkutils.h"
+
 #include <memory>
 #include <assert.h>
 
@@ -34,12 +36,30 @@ void clearInputPage(QGridLayout* parent)
     }
 }
 
+std::vector<double> parseCarriageDistances(const QString& text)
+{
+    QStringList valuesList = text.split(" ");
+    std::vector<double> values;
+
+    for (const auto& value : valuesList)
+    {
+        values.emplace_back(value.toDouble());
+    }
+    return  values;
+}
 std::vector<double> AcquireInputData(QGridLayout* layout, QString& name)
 {
     size_t columntCount = layout->columnCount();
     size_t rowCount = layout->rowCount();
-
-    std::vector<double> params(machine::utils::getTTExportNames().size() -1);
+    std::vector<double> params;
+    if (rowCount < 7)
+    {
+        params.resize(machine::utils::getTTExportNames().size() -1);
+    }
+    else
+    {
+        params.resize(machine::utils::getLTExportNames().size());
+    }
 
     QLineEdit* edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, 1)->widget());
     QLineEdit* edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, columntCount - 1)->widget());
@@ -112,15 +132,25 @@ PTKMainStackForm::PTKMainStackForm(QWidget *parent) :
 
     connect(ui->importDataButton, &QPushButton::clicked, this, &PTKMainStackForm::on_importClicked);
     connect(ui->importDataButton_2, &QPushButton::clicked, this, &PTKMainStackForm::on_importClicked);
+
     connect(ui->exportDataButton, &QPushButton::clicked, this, &PTKMainStackForm::on_exportClicked);
     connect(ui->exportDataButton_2, &QPushButton::clicked, this, &PTKMainStackForm::on_exportClicked);
+
     connect(ui->backToMainPageBtnT,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
     connect(ui->backToMainPageBtnT_2,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
+
     connect(ui->addMachine, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineLoadingTransport);
     connect(ui->addMachine_2, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineTipper);
 
     initTLineEditValidators(ui->inputCellsLTGridLayout);
     initTLineEditValidators(ui->inputCellsTTGridLayout);
+
+    //init lineedit validator on processing page
+
+    ui->workShiftLineEdit->setValidator(ui->lineEdit_3->validator());
+    ui->groundWeightLineEdit->setValidator(ui->lineEdit_2->validator());
+    std::unique_ptr<QRegExpValidator> validator(new QRegExpValidator(QRegExp("(([0-9]+\\.{0,1}[0-9]+)\\s)+"), this));
+    ui->carriageDistanceLineEdit->setValidator(validator.release());
 }
 
 PTKMainStackForm::~PTKMainStackForm()
@@ -144,11 +174,6 @@ void PTKMainStackForm::on_inputTipperBtn_clicked()
     clearInputPage(ui->inputCellsTTGridLayout);
 
     stackedWidget->setCurrentIndex(INPUT_DATA_PAGE_TT);
-
-}
-
-void PTKMainStackForm::on_processingBtn_clicked()
-{
 
 }
 
@@ -225,11 +250,6 @@ void PTKMainStackForm::on_exportClicked()
     }
 }
 
-void PTKMainStackForm::on_createPTKBtn_clicked()
-{
-
-}
-
 void PTKMainStackForm::on_backToMainPageReturn()
 {
     ui->mainStackedWidget->setCurrentIndex(MAIN_PAGE);
@@ -263,4 +283,28 @@ void PTKMainStackForm::initTLineEditValidators(QGridLayout* layout)
 void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 {
     ui->mainStackedWidget->setCurrentIndex(PROCESSING_PAGE);
+}
+
+
+void PTKMainStackForm::on_processingBtn_2_clicked()
+{
+    if (ui->carriageDistanceLineEdit->text().isEmpty())
+    {
+        return;
+    }
+
+    std::vector<double> carriageDistances = parseCarriageDistances(ui->carriageDistanceLineEdit->text());
+    double workShift = ui->workShiftLineEdit->text().toDouble();
+    double groundWeight = ui->groundWeightLineEdit->text().toDouble();
+
+    // generate pairs for tippers
+    machine::MachineComplex_map mmap;
+    for (const auto& tipper: tippers)
+    {
+        std::vector<std::shared_ptr<machine::LoadingTransport>> lt(ltransports.begin(), ltransports.end());
+
+        mmap.insert({tipper, lt});
+    }
+
+    machine::PTK ptk(workShift, groundWeight, std::move(carriageDistances), std::move(mmap));
 }

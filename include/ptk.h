@@ -46,7 +46,11 @@ using ExportComplex_vec = std::vector<std::vector<double>>;
 class PTK: public IMachine
 {
 public:
-    PTK(std::vector<int>&& earthTransportingLengths, MachineComplex_map&& map);
+    PTK(
+        double _workShift,
+        double _groundWeight,
+        std::vector<double>&& earthTransportingLengths,
+        MachineComplex_map&& map);
     void ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t &verticalOffset);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
@@ -56,9 +60,10 @@ public:
     virtual ~PTK();
 
 private:
-    std::vector<int> earthTransportingLengths;
+    double workShift;
+    double groundWeight;
+    std::vector<double> earthTransportingLengths;
     MachineComplex_map machineComplex;
-    std::vector<double> params;
 };
 }
 #endif // PTK_H

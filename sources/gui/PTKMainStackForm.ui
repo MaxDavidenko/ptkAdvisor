@@ -53,7 +53,7 @@
 }</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -580,6 +580,9 @@
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_21">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string>Расчетная скорость движения автосамосвалов в км/ч</string>
              </property>
@@ -614,10 +617,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_31">
              <property name="styleSheet">
-              <string notr="true">QLabel
-{
-text-wrap:true;
-}</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>Грузоподъемность самосвала</string>
@@ -720,6 +720,43 @@ text-wrap:true;
             <string>Количество автосамосвалов:</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_23">
+             <property name="text">
+              <string>Объемная масса грунта</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <widget class="QLineEdit" name="groundWeightLineEdit"/>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>Дальности возки грунта. Введите через пробел</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLineEdit" name="carriageDistanceLineEdit"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_24">
+             <property name="text">
+              <string>Продолжительность смены в часах</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="workShiftLineEdit"/>
+           </item>
+          </layout>
          </item>
          <item alignment="Qt::AlignHCenter">
           <widget class="QPushButton" name="processingBtn_2">

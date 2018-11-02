@@ -27,9 +27,7 @@ private slots:
 
     void on_inputTipperBtn_clicked();
 
-    void on_processingBtn_clicked();
 
-    void on_createPTKBtn_clicked();
 
     void on_backToMainPageReturn();
     void on_exportClicked();
@@ -39,6 +37,9 @@ private slots:
     void on_addMachineLoadingTransport();
 
     void on_toProcessingPageBtn_clicked();
+
+
+    void on_processingBtn_2_clicked();
 
 private:
     void initTLineEditValidators(QGridLayout* layout);

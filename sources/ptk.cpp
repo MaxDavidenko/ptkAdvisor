@@ -89,7 +89,12 @@ std::vector<double> calculateExportComplex(int workWay,
     return outParams;
 }
 
-bool PrepareExportToExel(xlsxwriter::Workbook& wb, const std::string& path, const std::vector<double>& params, size_t& index)
+bool PrepareExportToExel(xlsxwriter::Workbook& wb,
+                         const std::string& path,
+                         double workWay,
+                         double groundWeight,
+                         double workShift,
+                         size_t& index)
 {
 
     xlsxwriter::Worksheet ws = wb.get_worksheet_by_name("sheet");
@@ -104,20 +109,23 @@ bool PrepareExportToExel(xlsxwriter::Workbook& wb, const std::string& path, cons
 
     ws.set_column(0, 0, 70);
 
-    for (auto param: params)
-    {
-        ws.write_number( index++, 1, param);
-    }
+    ws.write_number( index++, 1, workWay);
+    ws.write_number( index++, 1, groundWeight);
+    ws.write_number( index++, 1, workShift);
 
     return true;
 }
 
 }
 
-machine::PTK::PTK(std::vector<int>&& _earthTransportingLengths, MachineComplex_map&& _mam):
+machine::PTK::PTK(double _workShift,
+                  double _groundWeight,
+                  std::vector<double> &&_earthTransportingLengths,
+                  MachineComplex_map&& _mam):
+    workShift(_workShift),
+    groundWeight(_groundWeight),
     earthTransportingLengths(_earthTransportingLengths),
-    machineComplex(_mam),
-    params(3, std::rand())
+    machineComplex(_mam)
 {
 
 }
@@ -159,11 +167,6 @@ IMachine *machine::PTK::Copy()
 
 }
 
-void machine::PTK::SetParam(machine::ptkT num, double value)
-{
-    params[num] = value;
-}
-
 void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
 {
     size_t cell_x = 1;
@@ -177,10 +180,10 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
 
             for (const auto& loadingTransport: loadingTransports)
             {
-                auto val = calculateExportComplex(workWay, params[Gamma],tipper, loadingTransport);
+                auto val = calculateExportComplex(workWay, groundWeight,tipper, loadingTransport);
                 exportComplex[i] = val;
             }
-            PrepareExportToExel(wb, path, params, cell_x);
+            PrepareExportToExel(wb, path, workWay, groundWeight, workShift, cell_x);
             ExportToXlsx(wb,"", exportComplex, cell_x);
         }
         cell_x += 10;
