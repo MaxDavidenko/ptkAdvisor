@@ -11,46 +11,14 @@
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QString>
-#include <QGridLayout>
+#include <QRegExpValidator>
+#include <QRegExp>
 
 namespace
 {
 enum StackPages  {MAIN_PAGE, INPUT_DATA_PAGE_LOADT, INPUT_DATA_PAGE_TT, PROCESSING_PAGE, GROUP_PAGE};
 
-QHBoxLayout* CreateHBoxWithLabelAndEdit(std::string_view labelName)
-{
-    QHBoxLayout* layout (new QHBoxLayout());
 
-    layout->addWidget(new QLabel(labelName.data()));
-    layout->insertSpacerItem(1, new QSpacerItem(10, 10));
-    layout->addWidget(new QLineEdit());
-
-    return layout;
-}
-
-
-void FillInputPage(const std::vector<std::string_view>& labelsNames,
-                   QBoxLayout* parent,
-                   QVBoxLayout* firstInputVLayout,
-                   QVBoxLayout* secondInputVLayout)
-{
-    const size_t firstColumnCapacity = labelsNames.size() / 2;
-    const size_t secondColumnCapacity = labelsNames.size() - firstColumnCapacity;
-
-    for (size_t i = 0; i < firstColumnCapacity; ++i)
-    {
-        QHBoxLayout* value = CreateHBoxWithLabelAndEdit(labelsNames.at(i));
-        firstInputVLayout->addLayout(value);
-    }
-
-    for (auto i = firstColumnCapacity; i < firstColumnCapacity + secondColumnCapacity; ++i)
-    {
-        QHBoxLayout* value = CreateHBoxWithLabelAndEdit(labelsNames.at(i));
-        secondInputVLayout->addLayout(value);
-    }
-}
-
-// using QLayoutItem *QGridLayout::itemAtPosition(int row, int column)
 void clearInputPage(QGridLayout* parent)
 {
     //clear tippers by using rowcount/columncount methods
@@ -59,74 +27,78 @@ void clearInputPage(QGridLayout* parent)
 
     for (int i = 0; i < rowCount; ++i)
     {
-        QLineEdit* edit1 = dynamic_cast<QLineEdit*>(parent->itemAtPosition(i, 0)->widget());
+        QLineEdit* edit1 = dynamic_cast<QLineEdit*>(parent->itemAtPosition(i, 1)->widget());
         QLineEdit* edit2 = dynamic_cast<QLineEdit*>(parent->itemAtPosition(i, columntCount - 1)->widget());
         edit1->clear();
         edit2->clear();
     }
 }
 
-
-std::vector<double> AcquireInputData(QVBoxLayout* firstInputVLayout,
-                                     QVBoxLayout* secondInputVLayout)
+std::vector<double> AcquireInputData(QGridLayout* layout, QString& name)
 {
-    auto children = firstInputVLayout->children() + secondInputVLayout->children();
-    //    auto secondChildren = firstInputVLayout->children();
-    std::vector<double> params(children.size());
+    size_t columntCount = layout->columnCount();
+    size_t rowCount = layout->rowCount();
 
+    std::vector<double> params(machine::utils::getTTExportNames().size() -1);
 
-    // start from 1 and before this read data from 0 element for datfill the name of machine.
-    // return pair with <name, vector>
+    QLineEdit* edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, 1)->widget());
+    QLineEdit* edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, columntCount - 1)->widget());
 
-    for (const auto& child : children)
+    name = edit1->text();
+    params[rowCount -1] = std::stod(edit2->text().toStdString());
+
+    for (size_t i = 1, k = 0; i < rowCount; ++i, ++k)
     {
-        QLineEdit* dataEdit = dynamic_cast<QLineEdit*>(child->children().at(1));
-        if (dataEdit != nullptr)
-        {
-            auto strData = dataEdit->text().toStdString();
-            double param = 0;
-            try {
-                param = std::stod(strData);
-            } catch (const std::exception& ex) {
-                //add log
-                assert(true && ex.what());
+        edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, 1)->widget());
+        edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, columntCount - 1)->widget());
 
-                param = 0;
-            }
-            params.push_back(param);
-        }
-    }
-    return params;
-}
-std::vector<double> ImportAquiredData(const std::vector<double>& params,
-                                      QVBoxLayout* firstInputVLayout,
-                                      QVBoxLayout* secondInputVLayout)
-{
-    auto children1 = firstInputVLayout->children();
-    size_t index = 0;
-
-    for (const auto& child : children1)
-    {
-        QLineEdit* dataEdit = dynamic_cast<QLineEdit*>(child->children().at(1));
-        if (dataEdit != nullptr)
+        if (edit1 != nullptr)
         {
-            dataEdit->setText(std::to_string(params[index++]).c_str());
+            params[k] = std::stod(edit1->text().toStdString());
         }
+        if (edit2 != nullptr)
+        {
+            params[k + rowCount] = std::stod(edit2->text().toStdString());
+        }
+
     }
 
-    auto children2 = secondInputVLayout->children();
-
-    for (const auto& child : children2)
-    {
-        QLineEdit* dataEdit = dynamic_cast<QLineEdit*>(child->children().at(1));
-        if (dataEdit != nullptr)
-        {
-            dataEdit->setText(std::to_string(params[index++]).c_str());
-        }
-    }
     return params;
 }
 
+void ImportAquiredData(const std::string& tname,
+                       const std::vector<double>& params,
+                       QGridLayout* layout)
+{
+    size_t columntCount = static_cast<size_t>(layout->columnCount());
+    size_t rowCount = static_cast<size_t>(layout->rowCount());
+
+    QLineEdit* edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, 1)->widget());
+    QLineEdit* edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, columntCount - 1)->widget());
+
+    edit1->setText(tname.c_str());
+    if (edit2 != nullptr)
+    {
+        edit2->setText(std::to_string(params[rowCount + 1]).c_str()); // 7 element and after him
+    }
+    for (size_t i = 1, k = 0; i < rowCount; ++i, ++k)
+    {
+        edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, 1)->widget());
+        edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, columntCount - 1)->widget());
+
+        if (edit1 != nullptr)
+        {
+            edit1->setText(std::to_string(params[k]).c_str());
+        }
+
+        if (edit2 != nullptr)
+        {
+            edit2->setText(std::to_string(params[k + rowCount]).c_str());
+        }
+
+    }
+
+}
 }
 
 PTKMainStackForm::PTKMainStackForm(QWidget *parent) :
@@ -137,6 +109,18 @@ PTKMainStackForm::PTKMainStackForm(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->inputLoadTransportBtn, &QPushButton::clicked, this, [this]{ this->inputDataTipper = false;});
     connect(ui->inputTipperBtn, &QPushButton::clicked, this, [this]{ this->inputDataTipper = true;});
+
+    connect(ui->importDataButton, &QPushButton::clicked, this, &PTKMainStackForm::on_importClicked);
+    connect(ui->importDataButton_2, &QPushButton::clicked, this, &PTKMainStackForm::on_importClicked);
+    connect(ui->exportDataButton, &QPushButton::clicked, this, &PTKMainStackForm::on_exportClicked);
+    connect(ui->exportDataButton_2, &QPushButton::clicked, this, &PTKMainStackForm::on_exportClicked);
+    connect(ui->backToMainPageBtnT,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
+    connect(ui->backToMainPageBtnT_2,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
+    connect(ui->addMachine, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineLoadingTransport);
+    connect(ui->addMachine_2, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineTipper);
+
+    initTLineEditValidators(ui->inputCellsLTGridLayout);
+    initTLineEditValidators(ui->inputCellsTTGridLayout);
 }
 
 PTKMainStackForm::~PTKMainStackForm()
@@ -151,24 +135,6 @@ void PTKMainStackForm::on_inputLoadTransportBtn_clicked()
     clearInputPage(ui->inputCellsLTGridLayout);
 
     stackedWidget->setCurrentIndex(INPUT_DATA_PAGE_LOADT);
-
-//    if (ui->firstInputVLayout->children().size() > 0)
-//    {
-//        qDeleteAll(ui->firstInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
-//        qDeleteAll(ui->firstInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
-//        qDeleteAll(ui->secondInputVLayout->findChildren<QBoxLayout*>("", Qt::FindDirectChildrenOnly));
-//    qDeleteAll(ui->secondInputVLayout->findChildren<QWidget*>("", Qt::FindDirectChildrenOnly));
-//    }
-
-//    FillInputPage(machine::utils::getLTExportNames(),
-//                  ui->inputCellsVLayout,
-//                  ui->firstInputVLayout,
-//                  ui->secondInputVLayout);
-}
-
-void PTKMainStackForm::on_backToMainPage_clicked()
-{
-    ui->mainStackedWidget->setCurrentIndex(0);
 }
 
 void PTKMainStackForm::on_inputTipperBtn_clicked()
@@ -179,71 +145,122 @@ void PTKMainStackForm::on_inputTipperBtn_clicked()
 
     stackedWidget->setCurrentIndex(INPUT_DATA_PAGE_TT);
 
-
-
-
 }
 
 void PTKMainStackForm::on_processingBtn_clicked()
 {
-    ui->mainStackedWidget->setCurrentIndex(PROCESSING_PAGE);
 
-    std::vector<double> params;//= AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
-
-    if (inputDataTipper)
-    {
-        tippers.emplace_back(new machine::Tipper("tipper",params));
-    }
-    else
-    {
-        ltransports.emplace_back(new machine::LoadingTransport("loader", params));
-    }
 }
 
-void PTKMainStackForm::on_importDataButton_clicked()
+void PTKMainStackForm::on_importClicked()
 {
-    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("XML Files (*.xml)"));
-    if (inputDataTipper)
+    auto path = QFileDialog::getOpenFileName(nullptr, "Выбирете путь к файлу", tr("file.xml"));
+
+    if (path.isEmpty())
+    {
+        return;
+    }
+
+    if (ui->mainStackedWidget->currentIndex() == INPUT_DATA_PAGE_TT)
     {
         machine::Tipper tipper;
         tipper.Import(path.toStdString());
-//        ImportAquiredData(tipper.getParams(),
-//                          ui->firstInputVLayout,
-//                          ui->secondInputVLayout);
-
-//    }
-//    else
-//    {
-//        machine::LoadingTransport loadT;
-//        loadT.Import(path.toStdString());
-//        ImportAquiredData(loadT.getParams(),
-//                          ui->firstInputVLayout,
-//                          ui->secondInputVLayout);
-
+        ImportAquiredData(
+                    tipper.getName(),
+                    tipper.getParams(),
+                    ui->inputCellsTTGridLayout);
+    }
+    else
+    {
+        machine::LoadingTransport loadT;
+        loadT.Import(path.toStdString());
+        ImportAquiredData(
+                    loadT.getName(),
+                    loadT.getParams(),
+                    ui->inputCellsLTGridLayout);
     }
 }
 
-void PTKMainStackForm::on_exportDataButton_clicked()
+void PTKMainStackForm::on_addMachineTipper()
 {
-    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("XML Files (*.xml)"));
-    if (inputDataTipper)
-    {
-        std::vector<double> params;// = AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
-        //        auto name = params[0]; handle names for tippers and loaders
-        params.erase(params.begin());
+    QString machineName;
+    std::vector<double> params = AcquireInputData(ui->inputCellsTTGridLayout, machineName);
 
-        machine::Tipper tipper("tipper", params);
+    tippers.emplace_back(new machine::Tipper(machineName.toStdString(), params));
+
+}
+
+void PTKMainStackForm::on_addMachineLoadingTransport()
+{
+    QString machineName;
+    std::vector<double> params = AcquireInputData(ui->inputCellsLTGridLayout, machineName);
+
+    ltransports.emplace_back(new machine::LoadingTransport (machineName.toStdString(), params));
+}
+
+void PTKMainStackForm::on_exportClicked()
+{
+    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("file.xml"));
+
+    if (path.isEmpty())
+    {
+        return;
+    }
+
+    if (ui->mainStackedWidget->currentIndex() == INPUT_DATA_PAGE_TT)
+    {
+        QString machineName;
+        std::vector<double> params = AcquireInputData(ui->inputCellsTTGridLayout, machineName);
+
+        machine::Tipper tipper(machineName.toStdString(), params);
         tipper.Export(path.toStdString());
     }
     else
     {
-        std::vector<double> params; //= AcquireInputData(ui->firstInputVLayout, ui->secondInputVLayout);
-        machine::LoadingTransport loadT("loader",params);
-        loadT.Export(path.toStdString());
+        QString machineName;
+        std::vector<double> params = AcquireInputData(ui->inputCellsLTGridLayout, machineName);
+
+        machine::LoadingTransport lt(machineName.toStdString(), params);
+        lt.Export(path.toStdString());
     }
 }
 
 void PTKMainStackForm::on_createPTKBtn_clicked()
 {
 
+}
+
+void PTKMainStackForm::on_backToMainPageReturn()
+{
+    ui->mainStackedWidget->setCurrentIndex(MAIN_PAGE);
+}
+
+void PTKMainStackForm::initTLineEditValidators(QGridLayout* layout)
+{
+    QRegExpValidator *reVal = new QRegExpValidator(QRegExp("[0-9]+\\.[0-9]+"), this);
+
+    auto columntCount = layout->columnCount();
+    auto rowCount = layout->rowCount();
+
+    QLineEdit* edit1 = nullptr; // first is for name
+    QLineEdit* edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(0, columntCount - 1)->widget());
+
+    edit2->setValidator(reVal);
+
+    for (int i = 1; i < rowCount; ++i)
+    {
+        edit1 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, 1)->widget());
+        edit2 = dynamic_cast<QLineEdit*>(layout->itemAtPosition(i, columntCount - 1)->widget());
+
+        edit1->setValidator(reVal);
+        if (edit2 != nullptr)
+        {
+            edit2->setValidator(reVal);
+        }
+    }
+}
+
+void PTKMainStackForm::on_toProcessingPageBtn_clicked()
+{
+    ui->mainStackedWidget->setCurrentIndex(PROCESSING_PAGE);
 }

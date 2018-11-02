@@ -2,6 +2,7 @@
 #define PTKMAINSTACKFORM_H
 
 #include <QWidget>
+#include <QGridLayout>
 #include <list>
 #include <memory>
 #include "tipper.h"
@@ -24,18 +25,23 @@ public:
 private slots:
     void on_inputLoadTransportBtn_clicked();
 
-    void on_backToMainPage_clicked();
-
     void on_inputTipperBtn_clicked();
 
     void on_processingBtn_clicked();
 
-    void on_importDataButton_clicked();
-
-    void on_exportDataButton_clicked();
-
     void on_createPTKBtn_clicked();
 
+    void on_backToMainPageReturn();
+    void on_exportClicked();
+    void on_importClicked();
+
+    void on_addMachineTipper();
+    void on_addMachineLoadingTransport();
+
+    void on_toProcessingPageBtn_clicked();
+
+private:
+    void initTLineEditValidators(QGridLayout* layout);
 private:
     bool inputDataTipper;
     Ui::PTKMainStackForm *ui;

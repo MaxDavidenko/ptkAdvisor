@@ -45,8 +45,15 @@
    </item>
    <item>
     <widget class="QStackedWidget" name="mainStackedWidget">
+     <property name="styleSheet">
+      <string notr="true"> QLabel{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+     </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -67,7 +74,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="processingBtn">
+          <widget class="QPushButton" name="toProcessingPageBtn">
            <property name="text">
             <string>Обработать</string>
            </property>
@@ -140,10 +147,18 @@
             </widget>
            </item>
            <item row="6" column="1">
-            <widget class="QLineEdit" name="lineEdit_13"/>
+            <widget class="QLineEdit" name="lineEdit_13">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="3">
-            <widget class="QLineEdit" name="lineEdit_6"/>
+            <widget class="QLineEdit" name="lineEdit_6">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_9">
@@ -156,16 +171,44 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="lineEdit_2"/>
+            <widget class="QLineEdit" name="lineEdit_2">
+             <property name="inputMethodHints">
+              <set>Qt::ImhDigitsOnly</set>
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="text">
+              <string>1</string>
+             </property>
+             <property name="maxLength">
+              <number>32767</number>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QLineEdit" name="lineEdit_9"/>
+            <widget class="QLineEdit" name="lineEdit_9">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="3" column="3">
-            <widget class="QLineEdit" name="lineEdit_8"/>
+            <widget class="QLineEdit" name="lineEdit_8">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="5" column="1">
-            <widget class="QLineEdit" name="lineEdit_11"/>
+            <widget class="QLineEdit" name="lineEdit_11">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="0" column="2">
             <widget class="QLabel" name="label_11">
@@ -178,7 +221,11 @@
             </widget>
            </item>
            <item row="1" column="3">
-            <widget class="QLineEdit" name="lineEdit_4"/>
+            <widget class="QLineEdit" name="lineEdit_4">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_6">
@@ -191,16 +238,32 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QLineEdit" name="lineEdit"/>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="text">
+              <string>sdas</string>
+             </property>
+            </widget>
            </item>
            <item row="6" column="3">
-            <widget class="QLineEdit" name="lineEdit_14"/>
+            <widget class="QLineEdit" name="lineEdit_14">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="5" column="3">
-            <widget class="QLineEdit" name="lineEdit_12"/>
+            <widget class="QLineEdit" name="lineEdit_12">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="4" column="3">
-            <widget class="QLineEdit" name="lineEdit_10"/>
+            <widget class="QLineEdit" name="lineEdit_10">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="3" column="2">
             <widget class="QLabel" name="label_14">
@@ -233,7 +296,11 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEdit_5"/>
+            <widget class="QLineEdit" name="lineEdit_5">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="label_5">
@@ -296,18 +363,23 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="QLineEdit" name="lineEdit_7"/>
+            <widget class="QLineEdit" name="lineEdit_7">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="0" column="3">
-            <widget class="QLineEdit" name="lineEdit_3"/>
+            <widget class="QLineEdit" name="lineEdit_3">
+             <property name="text">
+              <string>1</string>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_4">
              <property name="styleSheet">
-              <string notr="true">QLabel
-{
-text-wrap:true;
-}</string>
+              <string notr="true"/>
              </property>
              <property name="text">
               <string>Геометрическая емкость ковша погрузочной машины</string>
@@ -335,6 +407,13 @@ text-wrap:true;
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addMachine">
+           <property name="text">
+            <string>Добавить информацию для обработки</string>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="backToMainPageBtnT">
@@ -581,6 +660,13 @@ text-wrap:true;
           </spacer>
          </item>
          <item>
+          <widget class="QPushButton" name="addMachine_2">
+           <property name="text">
+            <string>Добавить информацию для обработки</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="backToMainPageBtnT_2">
            <property name="text">
             <string>Вернуться на основную страницу</string>
@@ -636,16 +722,9 @@ text-wrap:true;
           </widget>
          </item>
          <item alignment="Qt::AlignHCenter">
-          <widget class="QPushButton" name="groupDataButton">
-           <property name="text">
-            <string>Сгруппировать ПТК</string>
-           </property>
-          </widget>
-         </item>
-         <item alignment="Qt::AlignHCenter">
           <widget class="QPushButton" name="processingBtn_2">
            <property name="text">
-            <string>Обработать</string>
+            <string>Обработать в Exel файл</string>
            </property>
           </widget>
          </item>

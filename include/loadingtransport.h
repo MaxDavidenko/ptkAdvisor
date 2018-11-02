@@ -36,7 +36,8 @@ public:
     virtual IMachine* Copy() override;
     void setParam(loadingT num, double value);
     double getParam(loadingT num);
-    inline const std::vector<double> getParams() { return params;}
+    const std::string& getName() const {return machineName;}
+    inline const std::vector<double> getParams() const { return params;}
     virtual ~LoadingTransport();
 private:
     std::string machineName;

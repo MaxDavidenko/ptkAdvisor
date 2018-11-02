@@ -27,8 +27,9 @@ public:
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;
     void setParam(tipperT num, double value);
-    double getParam(tipperT num);
-    inline const std::vector<double> getParams() { return params;}
+    const std::string& getName() const {return machineName;}
+    double getParam(tipperT num) const;
+    inline const std::vector<double> getParams() const { return params;}
     virtual ~Tipper();
 private:
     std::string machineName;

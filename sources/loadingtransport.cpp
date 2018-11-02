@@ -59,7 +59,7 @@ bool machine::LoadingTransport::Import(std::string_view path)
         return false;
     }
     tinyxml2::XMLElement* root = doc.RootElement();
-//    machineName = root->GetText();
+    machineName = root->Value();
 
     tinyxml2::XMLElement* child = root->FirstChildElement();
     size_t pos = 0;

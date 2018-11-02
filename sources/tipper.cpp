@@ -19,11 +19,11 @@ bool machine::Tipper::Export(std::string_view path)
     tinyxml2::XMLElement * pRoot = doc.NewElement("Machine");
     doc.LinkEndChild(pRoot);
     pRoot->SetValue(machineName.c_str());
-    auto tipperExportNames = machine::utils::getTTExportNames();
+//    auto tipperExportNames = machine::utils::getTTExportNames();
 
     for (size_t i = 0; i != params.size(); ++i)
     {
-        tinyxml2::XMLElement * node = doc.NewElement(tipperExportNames.at(i).data());
+        tinyxml2::XMLElement * node = doc.NewElement("el");
         if (node != nullptr)
         {
             node->SetText(std::to_string(params[i]).c_str());
@@ -42,18 +42,19 @@ bool machine::Tipper::Import(std::string_view path)
         std::cout << "Can't load loading transport xml file!\n";
         return false;
     }
-    tinyxml2::XMLNode* root = doc.RootElement();
+    tinyxml2::XMLElement* root = doc.RootElement();
     machineName = root->Value();
 
-    auto child = root->FirstChild();
+    tinyxml2::XMLElement* child = root->FirstChildElement();
     size_t pos = 0;
 
     while (child != nullptr)
     {
-        params[pos++] = std::stod(child->Value());
+        params[pos++] = std::stod(child->GetText());
 
-        child = child->NextSibling();
+        child = child->NextSiblingElement();
     }
+    return true;
 }
 
 IMachine *machine::Tipper::Copy()
@@ -66,7 +67,7 @@ void machine::Tipper::setParam(machine::tipperT num, double value)
     params[num] = value;
 }
 
-double machine::Tipper::getParam(machine::tipperT num)
+double machine::Tipper::getParam(machine::tipperT num) const
 {
     return params[num];
 }

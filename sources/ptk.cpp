@@ -172,11 +172,13 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
         for (const auto& [tipper, loadingTransports]: machineComplex)
         {
             ExportComplex_vec exportComplex;
+            size_t i = 0;
             exportComplex.resize(loadingTransports.size());
+
             for (const auto& loadingTransport: loadingTransports)
             {
                 auto val = calculateExportComplex(workWay, params[Gamma],tipper, loadingTransport);
-                exportComplex.emplace_back(val);
+                exportComplex[i] = val;
             }
             PrepareExportToExel(wb, path, params, cell_x);
             ExportToXlsx(wb,"", exportComplex, cell_x);
