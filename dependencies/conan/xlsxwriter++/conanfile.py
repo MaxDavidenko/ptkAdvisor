@@ -1,4 +1,4 @@
-from conans import ConanFile, CMake, tools
+from conans import ConanFile, CMake, MSBuild, tools
 import os
 class XlntConan(ConanFile):
     name = "xlsxwriter++"
@@ -21,9 +21,14 @@ class XlntConan(ConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.configure(source_folder="libxlsxwriterpp")
-        cmake.definitions["CMAKE_CXX_STANDARD"]="17"
-        cmake.build()
-        self.run("make -j6")
+        #cmake.definitions["CMAKE_CXX_STANDARD"]="17"
+        if self.settings.os == "Windows":
+            msbuild = MSBuild(self)
+            msbuild.build("xlsxwriter++.sln", parallel=False)
+          #  self.run("msbuild libxlsxwriter++.sln")
+        else:
+            cmake.build()
+            self.run("make -j6")
 
     def package(self):
         self.copy("*.hpp", dst="include/xlsxwriterpp", src="libxlsxwriterpp/include")

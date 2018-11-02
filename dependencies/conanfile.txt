@@ -3,14 +3,11 @@ tinyxml2/6.2.0@nicolastagliani/stable
 log4cplus/2.0.2@bincrafters/stable
 xlsxwriter++/1.0@krabio/testing
 
-xlnt/dev@krabio/testing
 
 
 [generators]
 qbs
 
-[options]
-xlnt:shared=False
 
 [imports]
 bin, *.dll -> ./bin # Copies all dll files from packages bin folder to my local "bin" folder
