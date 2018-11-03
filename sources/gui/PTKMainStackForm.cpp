@@ -4,6 +4,7 @@
 #include "tipper.h"
 #include "ptk.h"
 #include "ptkutils.h"
+#include "xlsxwriterpp/workbook.hpp"
 
 #include <memory>
 #include <assert.h>
@@ -288,6 +289,8 @@ void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 
 void PTKMainStackForm::on_processingBtn_2_clicked()
 {
+    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
+
     if (ui->carriageDistanceLineEdit->text().isEmpty())
     {
         return;
@@ -307,4 +310,9 @@ void PTKMainStackForm::on_processingBtn_2_clicked()
     }
 
     machine::PTK ptk(workShift, groundWeight, std::move(carriageDistances), std::move(mmap));
+    xlsxwriter::Workbook workbook(path.toStdString());
+    workbook.add_worksheet("ПТК");
+
+    ptk.Processing(workbook);
+    workbook.close();
 }

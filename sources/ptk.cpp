@@ -6,7 +6,7 @@
 namespace
 {
 using namespace::machine;
-const size_t OUT_PARAMS_COUNT = 16;
+const size_t OUT_PARAMS_COUNT = 18;
 
 std::vector<std::string> columnNames = { "L",
                                          "T",
@@ -90,14 +90,13 @@ std::vector<double> calculateExportComplex(int workWay,
 }
 
 bool PrepareExportToExel(xlsxwriter::Workbook& wb,
-                         const std::string& path,
                          double workWay,
                          double groundWeight,
                          double workShift,
                          size_t& index)
 {
 
-    xlsxwriter::Worksheet ws = wb.get_worksheet_by_name("sheet");
+    xlsxwriter::Worksheet ws = wb.worksheets().at(0); //wb.get_worksheet_by_name("ПТК");
     ws.activate();
 
     size_t internalIndex = index;
@@ -130,17 +129,20 @@ machine::PTK::PTK(double _workShift,
 
 }
 
-void machine::PTK::ExportToXlsx(xlsxwriter::Workbook& wb, const std::string& path, ExportComplex_vec &complexes, size_t& rowPosition)
+void machine::PTK::ExportToXlsx(xlsxwriter::Workbook& wb, ExportComplex_vec &complexes, size_t& rowPosition)
 {
-    xlsxwriter::Worksheet ws = wb.get_worksheet_by_name("sheet");
+    xlsxwriter::Worksheet ws =  wb.worksheets().at(0); //wb.get_worksheet_by_name("ПТК");
 
     xlsxwriter::Row startColumn = 1;
     xlsxwriter::Column startRow = rowPosition;
 
-    //check file existing. If file exist - write on the new ws. Either - write on the active ws.
+
     for (auto&& complex : complexes)
     {
-        for (const double& paramValue : complex)
+        ws.write_string(startRow++, startColumn,  complex.tipperName);
+        ws.write_number(startRow++, startColumn,  complex.loadMachineGrabCapacity);
+
+        for (const double& paramValue : complex.exportParams)
         {
             ws.write_number(startRow++, startColumn,  paramValue);
         }
@@ -167,7 +169,7 @@ IMachine *machine::PTK::Copy()
 
 }
 
-void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
+void machine::PTK::Processing(xlsxwriter::Workbook& wb)
 {
     size_t cell_x = 1;
     for (auto workWay: earthTransportingLengths)
@@ -181,10 +183,12 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb, const std::string& path)
             for (const auto& loadingTransport: loadingTransports)
             {
                 auto val = calculateExportComplex(workWay, groundWeight,tipper, loadingTransport);
-                exportComplex[i] = val;
+                exportComplex[i].tipperName = tipper->getName();
+                exportComplex[i].loadMachineGrabCapacity = loadingTransport->getParam(machine::E);
+                exportComplex[i++].exportParams = std::move(val);
             }
-            PrepareExportToExel(wb, path, workWay, groundWeight, workShift, cell_x);
-            ExportToXlsx(wb,"", exportComplex, cell_x);
+            PrepareExportToExel(wb, workWay, groundWeight, workShift, cell_x);
+            ExportToXlsx(wb, exportComplex, cell_x);
         }
         cell_x += 10;
     }
