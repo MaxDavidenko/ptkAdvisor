@@ -37,7 +37,7 @@ bool machine::LoadingTransport::Export(std::string_view path)
     tinyxml2::XMLElement * pRoot = doc.NewElement("Machine");
     doc.LinkEndChild(pRoot);
     pRoot->SetValue(machineName.c_str());
-    for (size_t i = 0; i != params.size(); ++i)
+    for (size_t i = 0; i < params.size(); ++i)
     {
         tinyxml2::XMLElement * node = doc.NewElement(exportFieldNames[i].data());
         if (node != nullptr)

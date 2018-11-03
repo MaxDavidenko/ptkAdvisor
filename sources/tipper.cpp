@@ -21,7 +21,7 @@ bool machine::Tipper::Export(std::string_view path)
     pRoot->SetValue(machineName.c_str());
 //    auto tipperExportNames = machine::utils::getTTExportNames();
 
-    for (size_t i = 0; i != params.size(); ++i)
+    for (size_t i = 0; i < params.size(); ++i)
     {
         tinyxml2::XMLElement * node = doc.NewElement("el");
         if (node != nullptr)

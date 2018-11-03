@@ -42,6 +42,7 @@ private slots:
     void on_processingBtn_2_clicked();
 
 private:
+    void clearInputPage(QGridLayout* parent);
     void initTLineEditValidators(QGridLayout* layout);
 private:
     bool inputDataTipper;

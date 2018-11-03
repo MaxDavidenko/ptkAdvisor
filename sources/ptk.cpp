@@ -81,6 +81,8 @@ std::vector<double> calculateExportComplex(int workWay,
              outParams[Cg]) * outParams[Na];
     outParams[Toob] = loadingTransport->getParam(loadingT::A) / outParams[Qptk];
 
+    outParams[Cptk1000] = 1;
+
     outParams[kvtPTK1] = (loadingTransport->getParam(loadingT::Wp) +
                           outParams[Na]+ tipper->getParam(tipperT::Wa)) / outParams[Qp];
 
