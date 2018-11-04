@@ -122,6 +122,7 @@ PTKMainStackForm::PTKMainStackForm(QWidget *parent) :
 
     connect(ui->backToMainPageBtnT,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
     connect(ui->backToMainPageBtnT_2,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
+    connect(ui->backToMainPageBtnT_3,&QPushButton::clicked, this, &PTKMainStackForm::on_backToMainPageReturn);
 
     connect(ui->addMachine, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineLoadingTransport);
     connect(ui->addMachine_2, &QPushButton::clicked, this, &PTKMainStackForm::on_addMachineTipper);
@@ -297,8 +298,9 @@ void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 
 void PTKMainStackForm::on_processingBtn_2_clicked()
 {
-    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
+  //  auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
 
+    auto path = QString("PTK.xlsx");
     if (ui->carriageDistanceLineEdit->text().isEmpty())
     {
         return;

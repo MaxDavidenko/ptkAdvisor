@@ -1,4 +1,6 @@
-Product
+import qbs
+
+Application
 {
     files: [
         "sources/gui/PTKMainStackForm.cpp",
@@ -17,6 +19,7 @@ Product
 
     name: "ptkAdvisor"
     type: "application"
+    qbs.install: true
 
     Depends {name: "cpp"}
     Depends { name: "Qt"; submodules: [ "core", "gui", "widgets"] }
@@ -25,11 +28,8 @@ Product
 
     cpp.cxxLanguageVersion: "c++17"
     cpp.includePaths: "include"
-    consoleApplication: true
 
     Group {     // Properties for the produced executable
-        fileTagsFilter: "application"
-        qbs.install: true
     }
     Group
     {

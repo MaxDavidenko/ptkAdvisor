@@ -9,7 +9,6 @@
 [requires]
     log4cplus/2.Y.Z
     tinyxml2/6.Y.Z
-    xlnt/dev
     xlsxwriter++/1.Y.Z
 
 [options]
@@ -28,7 +27,6 @@
 [full_requires]
     log4cplus/2.0.2@bincrafters/stable:1a651c5b4129ad794b88522bece2281a7453aee4
     tinyxml2/6.2.0@nicolastagliani/stable:69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
-    xlnt/dev@krabio/testing:69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
     xlsxwriter++/1.0@krabio/testing:69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
 
 [full_options]
@@ -43,7 +41,6 @@
     log4cplus:working_c_locale=False
     log4cplus:working_locale=False
     tinyxml2:shared=False
-    xlnt:shared=False
     xlsxwriter++:shared=False
 
 [recipe_hash]
