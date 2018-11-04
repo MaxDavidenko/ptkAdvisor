@@ -134,7 +134,7 @@ PTKMainStackForm::PTKMainStackForm(QWidget *parent) :
 
     ui->workShiftLineEdit->setValidator(ui->lineEdit_3->validator());
     ui->groundWeightLineEdit->setValidator(ui->lineEdit_2->validator());
-    std::unique_ptr<QRegExpValidator> validator(new QRegExpValidator(QRegExp("(([0-9]+\\.{0,1}[0-9]+)\\s)+"), this));
+    std::unique_ptr<QRegExpValidator> validator(new QRegExpValidator(QRegExp("(([0-9]+(\\.[0-9]+){0,1})\\s)+"), this));
     ui->carriageDistanceLineEdit->setValidator(validator.release());
 }
 
@@ -166,6 +166,7 @@ void PTKMainStackForm::clearInputPage(QGridLayout* parent)
         {
             edit2->clear();
         }
+
     }
 }
 
@@ -292,6 +293,11 @@ void PTKMainStackForm::initTLineEditValidators(QGridLayout* layout)
 
 void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 {
+    auto loadTransportLblTxt = ui->loadTransportLbl->text().split(':')[0];
+    auto tipperLblTxt = ui->tipperCountLbl->text().split(':')[0];
+    ui->loadTransportLbl->setText(loadTransportLblTxt  + ": " + std::to_string(ltransports.size()).c_str());
+    ui->tipperCountLbl->setText(tipperLblTxt + ": " + std::to_string(tippers.size()).c_str());
+
     ui->mainStackedWidget->setCurrentIndex(PROCESSING_PAGE);
 }
 
