@@ -13,6 +13,8 @@
 #include <QSpacerItem>
 #include <QLineEdit>
 #include <QFileDialog>
+#include <QMessageBox>
+
 #include <QString>
 #include <QRegExpValidator>
 #include <QRegExp>
@@ -66,11 +68,20 @@ std::vector<double> AcquireInputData(QGridLayout* layout)
     {
         if (edit1 = getLineEditByPos(layout, i, 1);edit1 != nullptr)
         {
-            params[i] = std::stod(edit1->text().toStdString());
+            try {
+                params[i] = std::stod(edit1->text().toStdString());
+            } catch (const std::exception& ex) {
+                params[i] = 0;
+            }
         }
         if (edit2 = getLineEditByPos(layout, i, columntCount - 1);edit2 != nullptr)
         {
-            params[i + rowCount] = std::stod(edit2->text().toStdString());
+            try {
+                params[i + rowCount] = std::stod(edit2->text().toStdString());
+            } catch (const std::exception& ex) {
+                params[i + rowCount] = 0;
+            }
+
         }
 
     }
@@ -219,6 +230,13 @@ void PTKMainStackForm::on_importClicked()
 void PTKMainStackForm::on_addMachineTipper()
 {
     QString machineName = ui->machineNameLineEdit_2->text();
+    if (machineName.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Предупреждение"),
+                             tr("Заполните все поля!"),
+                             QMessageBox::Ok);
+        return;
+    }
 
     std::vector<double> params = AcquireInputData(ui->inputCellsTTGridLayout);
 
@@ -230,6 +248,14 @@ void PTKMainStackForm::on_addMachineLoadingTransport()
 {
     QString machineName = ui->machineNameLineEdit_1->text();
     std::vector<double> params = AcquireInputData(ui->inputCellsLTGridLayout);
+
+    if (machineName.isEmpty())
+    {
+        QMessageBox::warning(this, tr("Предупреждение"),
+                             tr("Заполните все поля!"),
+                             QMessageBox::Ok);
+        return;
+    }
 
     ltransports.emplace_back(new machine::LoadingTransport (machineName.toStdString(), params));
 }
@@ -304,9 +330,10 @@ void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 
 void PTKMainStackForm::on_processingBtn_2_clicked()
 {
-  //  auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
+    //    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
 
     auto path = QString("PTK.xlsx");
+
     if (ui->carriageDistanceLineEdit->text().isEmpty())
     {
         return;

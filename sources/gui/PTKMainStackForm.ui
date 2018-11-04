@@ -13,7 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>7</number>
+   </property>
    <item>
     <widget class="QListWidget" name="listWidget">
      <item>
@@ -51,6 +57,10 @@
 	background-color: rgb(54,54,54);
 }
 
+QMessageBox QLabel {
+	color: rgb(	232, 232, 232);
+}
+
  QLabel{
 	color: rgb(	232, 232, 232);
     border-color: black;
@@ -69,13 +79,30 @@ QPushButton
 width: 230;
 height: 25;
 background-color: rgb(	232, 232, 232);
-}</string>
+}
+
+background-color: rgb(54,54,54);
+
+QMessageBox QLabel {
+
+background-color: rgb(	232, 232, 232);
+}
+</string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>3</number>
+     </property>
+     <property name="midLineWidth">
+      <number>1</number>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -199,6 +226,11 @@ background-color: rgb(	232, 232, 232);
            <height>20</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Входные данные для погрузочного транспорта</string>
          </property>
@@ -256,7 +288,7 @@ background-color: rgb(	232, 232, 232);
               <string>Название машины</string>
              </property>
              <property name="wordWrap">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -284,7 +316,7 @@ background-color: rgb(	232, 232, 232);
             <number>7</number>
            </property>
            <property name="topMargin">
-            <number>0</number>
+            <number>13</number>
            </property>
            <property name="rightMargin">
             <number>7</number>
@@ -606,6 +638,11 @@ background-color: rgb(	232, 232, 232);
            <height>20</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
          <property name="text">
           <string>Входные данные для самосвалов</string>
          </property>
@@ -660,7 +697,7 @@ background-color: rgb(	232, 232, 232);
               <string>Название машины</string>
              </property>
              <property name="wordWrap">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -872,6 +909,17 @@ background-color: rgb(	232, 232, 232);
       <layout class="QVBoxLayout" name="verticalLayout">
        <item alignment="Qt::AlignHCenter">
         <widget class="QLabel" name="processingLbl">
+         <property name="font">
+          <font>
+           <pointsize>16</pointsize>
+           <weight>75</weight>
+           <italic>false</italic>
+           <bold>true</bold>
+           <underline>false</underline>
+           <strikeout>false</strikeout>
+           <kerning>true</kerning>
+          </font>
+         </property>
          <property name="text">
           <string>Обработка</string>
          </property>
@@ -885,7 +933,7 @@ background-color: rgb(	232, 232, 232);
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>117</height>
+           <height>110</height>
           </size>
          </property>
         </spacer>
@@ -974,7 +1022,7 @@ background-color: rgb(	232, 232, 232);
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>116</height>
+           <height>110</height>
           </size>
          </property>
         </spacer>

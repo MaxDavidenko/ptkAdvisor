@@ -1,6 +1,7 @@
 #include "ptkAdvisorMainWindow.h"
 #include "PTKMainStackForm.h"
 #include "ui_ptkAdvisorMainWindow.h"
+#include <QMovie>
 
 ptkAdvisorMainWindow::ptkAdvisorMainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,6 +10,9 @@ ptkAdvisorMainWindow::ptkAdvisorMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     stackForm->hide();
+    QMovie *movie = new QMovie(":/images/loading.gif");
+    ui->movieLbl->setMovie(movie);
+    movie->start();
 
 }
 

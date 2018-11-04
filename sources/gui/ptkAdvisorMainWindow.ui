@@ -11,7 +11,24 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>PTKAdvisor</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel{
+	color: rgb(	232, 232, 232);
+    border-color: black;
+}
+QPushButton
+{
+width: 230;
+height: 25;
+background-color: rgb(	232, 232, 232);
+}
+QMainWindow
+{
+background-color: rgb(54,54,54);
+}
+</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -34,6 +51,11 @@
         </item>
         <item>
          <widget class="QLabel" name="programLabel">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>PTKAdvisor</string>
           </property>
