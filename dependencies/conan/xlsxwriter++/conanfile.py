@@ -16,7 +16,7 @@ class XlntConan(ConanFile):
 	#tools.get("https://github.com/Alexhuszagh/libxlsxwriterpp/archive/master.zip")
         self.run("git clone https://github.com/Alexhuszagh/libxlsxwriterpp.git")
         os.chdir("libxlsxwriterpp")
-	self.run("git submodule update --init --recursive")
+        self.run("git submodule update --init --recursive")
 
     def build(self):
         cmake = CMake(self)
