@@ -3,6 +3,7 @@ import qbs
 Application
 {
     files: [
+        "resources.qrc",
         "sources/gui/PTKMainStackForm.cpp",
         "sources/gui/PTKMainStackForm.h",
         "sources/gui/PTKMainStackForm.ui",

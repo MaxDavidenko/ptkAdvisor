@@ -10,7 +10,7 @@ ptkAdvisorMainWindow::ptkAdvisorMainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     stackForm->hide();
-    QMovie *movie = new QMovie(":/images/loading.gif");
+    QMovie *movie = new QMovie(":/images/images/excavator.gif");
     ui->movieLbl->setMovie(movie);
     movie->start();
 

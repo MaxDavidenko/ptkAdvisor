@@ -90,6 +90,13 @@ background-color: rgb(54,54,54);
        </spacer>
       </item>
       <item>
+       <widget class="QLabel" name="movieLbl">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <spacer name="horizontalSpacer_3">
@@ -173,7 +180,7 @@ background-color: rgb(54,54,54);
      <x>0</x>
      <y>0</y>
      <width>624</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>940</width>
-    <height>545</height>
+    <width>981</width>
+    <height>574</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -102,7 +102,7 @@ background-color: rgb(	232, 232, 232);
       <number>1</number>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="mainPage">
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -245,7 +245,7 @@ background-color: rgb(	232, 232, 232);
           <number>7</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>7</number>
          </property>
          <property name="rightMargin">
           <number>7</number>
@@ -660,7 +660,7 @@ background-color: rgb(	232, 232, 232);
           <number>7</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>7</number>
          </property>
          <property name="rightMargin">
           <number>7</number>
