@@ -59,7 +59,7 @@ bool machine::Tipper::Import(std::string_view path)
 
 IMachine *machine::Tipper::Copy()
 {
-
+    return nullptr;
 }
 
 void machine::Tipper::setParam(machine::tipperT num, double value)

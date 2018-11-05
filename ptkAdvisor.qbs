@@ -20,7 +20,6 @@ Product
 
     Depends {name: "cpp"}
     Depends { name: "Qt"; submodules: [ "core", "gui", "widgets"] }
-    Depends {name: "xlnt"}
     Depends {name: "tinyxml2"}
     Depends {name: "xlsxwriter++"}
 

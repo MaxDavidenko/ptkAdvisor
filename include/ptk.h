@@ -43,6 +43,10 @@ enum ptkOutput
 using MachineComplex_map = std::multimap<std::shared_ptr<Tipper>, std::vector<std::shared_ptr<LoadingTransport>>>;
 struct ExportComplex
 {
+    ExportComplex(std::string _tipperName,
+                  double _ld,
+                  std::vector<double> _exp): tipperName(_tipperName), loadMachineGrabCapacity(_ld), exportParams(_exp) {}
+
     std::string tipperName;
     double loadMachineGrabCapacity;
     std::vector<double> exportParams;
@@ -57,7 +61,12 @@ public:
         double _groundWeight,
         std::vector<double>&& earthTransportingLengths,
         MachineComplex_map&& map);
-    void ExportToXlsx(xlsxwriter::Workbook& wb, ExportComplex_vec &complexes, size_t &verticalOffset);
+    void ExportToXlsx(double workWay,
+                      double groundWeight,
+                      double workShift,
+                      xlsxwriter::Workbook& wb,
+                      ExportComplex_vec &complexes,
+                      size_t &verticalOffset);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;

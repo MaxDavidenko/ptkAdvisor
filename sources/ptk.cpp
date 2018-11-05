@@ -92,9 +92,6 @@ std::vector<double> calculateExportComplex(int workWay,
 }
 
 bool PrepareExportToExel(xlsxwriter::Workbook& wb,
-                         double workWay,
-                         double groundWeight,
-                         double workShift,
                          size_t& index)
 {
 
@@ -109,10 +106,6 @@ bool PrepareExportToExel(xlsxwriter::Workbook& wb,
     }
 
     ws.set_column(0, 0, 70);
-
-    ws.write_number( index++, 1, workWay);
-    ws.write_number( index++, 1, groundWeight);
-    ws.write_number( index++, 1, workShift);
 
     return true;
 }
@@ -131,16 +124,23 @@ machine::PTK::PTK(double _workShift,
 
 }
 
-void machine::PTK::ExportToXlsx(xlsxwriter::Workbook& wb, ExportComplex_vec &complexes, size_t& rowPosition)
+void machine::PTK::ExportToXlsx(double workWay,
+                                double groundWeight,
+                                double workShift,
+                                xlsxwriter::Workbook& wb,
+                                ExportComplex_vec &complexes,
+                                size_t& rowPosition)
 {
     xlsxwriter::Worksheet ws =  wb.worksheets().at(0); //wb.get_worksheet_by_name("ПТК");
 
-    xlsxwriter::Row startColumn = 1;
-    xlsxwriter::Column startRow = rowPosition;
-
+    xlsxwriter::Column startColumn = 1;
+    xlsxwriter::Row startRow = rowPosition;
 
     for (auto&& complex : complexes)
     {
+        ws.write_number(startRow++, startColumn,  workWay);
+        ws.write_number(startRow++, startColumn,  workShift);
+        ws.write_number(startRow++, startColumn,  groundWeight);
         ws.write_string(startRow++, startColumn,  complex.tipperName);
         ws.write_number(startRow++, startColumn,  complex.loadMachineGrabCapacity);
 
@@ -168,7 +168,7 @@ bool machine::PTK::Import(std::string_view path)
 
 IMachine *machine::PTK::Copy()
 {
-
+    return nullptr;
 }
 
 void machine::PTK::Processing(xlsxwriter::Workbook& wb)
@@ -176,22 +176,24 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb)
     size_t cell_x = 1;
     for (auto workWay: earthTransportingLengths)
     {
+        ExportComplex_vec exportComplex;
+
         for (const auto& [tipper, loadingTransports]: machineComplex)
         {
-            ExportComplex_vec exportComplex;
-            size_t i = 0;
-            exportComplex.resize(loadingTransports.size());
+//            size_t i = 0;
+//            exportComplex.resize(loadingTransports.size());
 
             for (const auto& loadingTransport: loadingTransports)
             {
                 auto val = calculateExportComplex(workWay, groundWeight,tipper, loadingTransport);
-                exportComplex[i].tipperName = tipper->getName();
-                exportComplex[i].loadMachineGrabCapacity = loadingTransport->getParam(machine::E);
-                exportComplex[i++].exportParams = std::move(val);
+                exportComplex.emplace_back(tipper->getName(),loadingTransport->getParam(machine::E), val);
+//                exportComplex[i].tipperName = tipper->getName();
+//                exportComplex[i].loadMachineGrabCapacity = loadingTransport->getParam(machine::E);
+//                exportComplex[i++].exportParams = std::move(val);
             }
-            PrepareExportToExel(wb, workWay, groundWeight, workShift, cell_x);
-            ExportToXlsx(wb, exportComplex, cell_x);
         }
+        PrepareExportToExel(wb, cell_x);
+        ExportToXlsx(workWay, groundWeight,workShift, wb, exportComplex, cell_x);
         cell_x += 10;
     }
 }

@@ -75,7 +75,7 @@ bool machine::LoadingTransport::Import(std::string_view path)
 
 IMachine *machine::LoadingTransport::Copy()
 {
-
+    return nullptr;
 }
 
 void machine::LoadingTransport::setParam(machine::loadingT num, double value)
