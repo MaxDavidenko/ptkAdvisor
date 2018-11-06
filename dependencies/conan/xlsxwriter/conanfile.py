@@ -2,33 +2,36 @@ from conans import ConanFile, CMake, MSBuild, tools
 import os
 import shutil
 class XlntConan(ConanFile):
-    name = "xlsxwriter++"
+    name = "xlsxwriter"
     version = "1.0"
     description = "The library for convinient work with xlsx files github repo: https://github.com/Alexhuszagh/libxlsxwriterpp"
     license = "MIT"
     url = "https://github.com/Alexhuszagh/libxlsxwriterpp.git"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared" : [True, False]}
-    exports_sources = ["CMakeLists.txt"]
+    exports_sources = ["CMakeLists.txt", ".gitmodules"]
     full_name = "{_name}-{_version}".format(_name = name, _version = version)
     default_options = "shared=False"
     generators = "cmake"
 
+    def build_requirements(self):
+    # useful for example for conditional build_requires
+    # This means, if we are running on a Windows machine, require ToolWin
+        self.build_requires("zlib/1.2.11@conan/stable")
+    
     def source(self):
 	#tools.get("https://github.com/Alexhuszagh/libxlsxwriterpp/archive/master.zip")
-        self.run("git clone https://github.com/Alexhuszagh/libxlsxwriterpp.git")
-        os.chdir("libxlsxwriterpp")
-       	self.run("git submodule update --init --recursive")
-        tools.replace_in_file("libxlsxwriter/src/packager.c", "fill_win32_filefunc64", "fill_win32_filefunc64W")
+        self.run("git clone https://github.com/jmcnamara/libxlsxwriter.git")
+		self.run("git submodule update --init --recursive")
 
     def build(self):
         cmake = CMake(self)
-        shutil.copy("CMakeLists.txt", "libxlsxwriterpp/CMakeLists.txt")
-        cmake.configure(source_folder="libxlsxwriterpp")
+        shutil.copy("CMakeLists.txt", "libxlsxwriter/CMakeLists.txt")
+        cmake.configure(source_folder="libxlsxwriter")
         #cmake.definitions["CMAKE_CXX_STANDARD"]="17"
         if self.settings.os == "Windows":
             msbuild = MSBuild(self)
-            msbuild.build("xlsxwriter++.sln", parallel=False)
+            msbuild.build("xlsxwriter.sln", parallel=False)
           #  self.run("msbuild libxlsxwriter++.sln")
         else:
             cmake.build()
@@ -44,5 +47,5 @@ class XlntConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
      
     def package_info(self):
-        self.cpp_info.libs = ["xlsxwriter++", "xlsxwriter", "zlib"]
+        self.cpp_info.libs = ["xlsxwriter", "zlib"]
         

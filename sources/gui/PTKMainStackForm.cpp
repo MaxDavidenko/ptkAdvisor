@@ -202,7 +202,7 @@ void PTKMainStackForm::on_inputTipperBtn_clicked()
 
 void PTKMainStackForm::on_importClicked()
 {
-    auto path = QFileDialog::getOpenFileName(nullptr, "Выбирете путь к файлу", tr("file.xml"));
+    auto path = QFileDialog::getOpenFileName(nullptr, "Выбирете путь к файлу", QDir::currentPath(),tr("*.xml"));
 
     if (path.isEmpty())
     {
@@ -331,8 +331,8 @@ void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 void PTKMainStackForm::on_processingBtn_2_clicked()
 {
         auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", QDir::currentPath(),tr("*.xlsx"));
-        path = path.replace('/', '\\');
-//        auto path = QString("PTK.xlsx");
+//        path = path.replace('/', '\\');
+//        auto path = QString("path2.xlsx");
     std::string ps = path.toStdString();
 
     if (ui->carriageDistanceLineEdit->text().isEmpty())
