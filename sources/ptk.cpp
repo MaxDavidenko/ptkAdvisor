@@ -8,29 +8,29 @@ namespace
 using namespace::machine;
 const size_t OUT_PARAMS_COUNT = 18;
 
-std::vector<std::string> columnNames = { "L",
-                                         "T",
-                                         "Gamma",
-                                         "название самосвала",
-                                         "емкость ковша",
-                                         "произоводительность погрузочной машины м3.час",
-                                         "время обслуживания погрузочной машиной автосамосвала мин",
-                                         "время движения груженного и порожнего автосамосвала в мин",
-                                         "общее время рейса автосамосвала",
-                                         "производительность автосамосвала м3.ч",
-                                         "количество необходимых автосамосвалов",
-                                         "время необходимое птк для выполнения 1000 м3 земляных работ час.тыс м3",
-                                         "расход дизеля птк на 1000 м3",
-                                         "расход электроэнергии эл. экскаватором на 1000 квт х час.тыс м3",
-                                         "затраты труда на 1000 м3 чел/cмены",
-                                         "производителность ПТК за смену м3.см",
-                                         "производителность 1 рабочего за смену м3.см",
-                                         "затраты на гражданское хозяйство на 1 маш.-час(руб.маш-час)",
-                                         "стоимость часа эксплуатации всех машин птк руб.час",
-                                         "стоимость 1000 m3 эксплуатации всех машин птк тыс.руб.час/м3",
-                                         "время, необходимое для выполнения птком объема земляных работ А, смены",
-                                         "энергоемкость на 1 м3 земляных работ квт час на м3",
-                                         "энергоемкость на 1 м3 земляных работ (л.с)"
+std::vector<std::string> columnNames = { "Дальность возки",
+                                         "Рабочая смена",
+                                         "Объемная масса грунта",
+                                         "Название самосвала",
+                                         "Емкость ковша",
+                                         "Произоводительность погрузочной машины м3.час",
+                                         "Время обслуживания погрузочной машиной автосамосвала мин",
+                                         "Время движения груженного и порожнего автосамосвала в мин",
+                                         "Общее время рейса автосамосвала",
+                                         "Производительность автосамосвала м3.ч",
+                                         "Количество необходимых автосамосвалов",
+                                         "Время необходимое птк для выполнения 1000 м3 земляных работ час.тыс м3",
+                                         "Расход дизеля птк на 1000 м3",
+                                         "Расход электроэнергии эл. экскаватором на 1000 квт х час.тыс м3",
+                                         "Затраты труда на 1000 м3 чел/cмены",
+                                         "Производителность ПТК за смену м3.см",
+                                         "Производителность 1 рабочего за смену м3.см",
+                                         "Затраты на гражданское хозяйство на 1 маш.-час(руб.маш-час)",
+                                         "Стоимость часа эксплуатации всех машин птк руб.час",
+                                         "Стоимость 1000 m3 эксплуатации всех машин птк тыс.руб.час/м3",
+                                         "Время, необходимое для выполнения птком объема земляных работ А, смены",
+                                         "Энергоемкость на 1 м3 земляных работ квт час на м3",
+                                         "Энергоемкость на 1 м3 земляных работ (л.с)"
                                        };
 std::vector<double> calculateExportComplex(int workWay,
                                            double Gamma,
@@ -81,7 +81,7 @@ std::vector<double> calculateExportComplex(int workWay,
              outParams[Cg]) * outParams[Na];
     outParams[Toob] = loadingTransport->getParam(loadingT::A) / outParams[Qptk];
 
-    outParams[Cptk1000] = 1;
+    outParams[Cptk1000] = ((outParams[Cg] + tipper->getParam(tipperT::Ca)) * outParams[Na]) + loadingTransport->getParam(loadingT::Cp);
 
     outParams[kvtPTK1] = (loadingTransport->getParam(loadingT::Wp) +
                           outParams[Na]+ tipper->getParam(tipperT::Wa)) / outParams[Qp];
@@ -178,21 +178,16 @@ void machine::PTK::Processing(std::string_view path)
 
         for (const auto& [tipper, loadingTransports]: machineComplex)
         {
-//            size_t i = 0;
-//            exportComplex.resize(loadingTransports.size());
-
             for (const auto& loadingTransport: loadingTransports)
             {
                 auto val = calculateExportComplex(workWay, groundWeight,tipper, loadingTransport);
                 exportComplex.emplace_back(tipper->getName(),loadingTransport->getParam(machine::E), val);
-//                exportComplex[i].tipperName = tipper->getName();
-//                exportComplex[i].loadMachineGrabCapacity = loadingTransport->getParam(machine::E);
-//                exportComplex[i++].exportParams = std::move(val);
+
             }
         }
         PrepareExportToExel(ws, cell_x);
         ExportToXlsx(workWay, groundWeight,workShift, ws, exportComplex, cell_x);
-        cell_x += 10;
+        cell_x += 2;
     }
     workbook.close();
 }

@@ -18,8 +18,7 @@ bool machine::Tipper::Export(std::string_view path)
     tinyxml2::XMLDocument doc;
     tinyxml2::XMLElement * pRoot = doc.NewElement("Machine");
     doc.LinkEndChild(pRoot);
-    pRoot->SetValue(machineName.c_str());
-//    auto tipperExportNames = machine::utils::getTTExportNames();
+    pRoot->SetAttribute("name", machineName.c_str());
 
     for (size_t i = 0; i < params.size(); ++i)
     {
@@ -43,7 +42,7 @@ bool machine::Tipper::Import(std::string_view path)
         return false;
     }
     tinyxml2::XMLElement* root = doc.RootElement();
-    machineName = root->Value();
+    machineName = root->Attribute("name");
 
     tinyxml2::XMLElement* child = root->FirstChildElement();
     size_t pos = 0;

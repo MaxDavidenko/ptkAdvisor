@@ -213,7 +213,7 @@ void PTKMainStackForm::on_importClicked()
     {
         machine::Tipper tipper;
         tipper.Import(path.toStdString());
-        ui->machineNameLineEdit_1->setText(tipper.getName().c_str());
+        ui->machineNameLineEdit_2->setText(tipper.getName().c_str());
 
         ImportAquiredData(tipper.getParams(), ui->inputCellsTTGridLayout);
     }
@@ -221,9 +221,9 @@ void PTKMainStackForm::on_importClicked()
     {
         machine::LoadingTransport loadT;
         loadT.Import(path.toStdString());
-        ui->machineNameLineEdit_2->setText(loadT.getName().c_str());
-
+        ui->machineNameLineEdit_1->setText(loadT.getName().c_str());
         ImportAquiredData(loadT.getParams(), ui->inputCellsLTGridLayout);
+
     }
 }
 
