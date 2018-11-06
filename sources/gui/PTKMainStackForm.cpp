@@ -330,9 +330,10 @@ void PTKMainStackForm::on_toProcessingPageBtn_clicked()
 
 void PTKMainStackForm::on_processingBtn_2_clicked()
 {
-    //    auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", tr("PTK.xlsx"));
-
-    auto path = QString("PTK.xlsx");
+        auto path = QFileDialog::getSaveFileName(nullptr, "Выбирете путь к файлу", QDir::currentPath(),tr("*.xlsx"));
+        path = path.replace('/', '\\');
+//        auto path = QString("PTK.xlsx");
+    std::string ps = path.toStdString();
 
     if (ui->carriageDistanceLineEdit->text().isEmpty())
     {
@@ -353,9 +354,5 @@ void PTKMainStackForm::on_processingBtn_2_clicked()
     }
 
     machine::PTK ptk(workShift, groundWeight, std::move(carriageDistances), std::move(mmap));
-    xlsxwriter::Workbook workbook(path.toStdString());
-    workbook.add_worksheet("ПТК");
-
-    ptk.Processing(workbook);
-    workbook.close();
+    ptk.Processing(ps);
 }

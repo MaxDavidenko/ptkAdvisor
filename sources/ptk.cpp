@@ -91,13 +91,9 @@ std::vector<double> calculateExportComplex(int workWay,
     return outParams;
 }
 
-bool PrepareExportToExel(xlsxwriter::Workbook& wb,
+bool PrepareExportToExel(xlsxwriter::Worksheet& ws,
                          size_t& index)
 {
-
-    xlsxwriter::Worksheet ws = wb.worksheets().at(0); //wb.get_worksheet_by_name("ПТК");
-    ws.activate();
-
     size_t internalIndex = index;
 
     for (const auto& col : columnNames)
@@ -127,12 +123,10 @@ machine::PTK::PTK(double _workShift,
 void machine::PTK::ExportToXlsx(double workWay,
                                 double groundWeight,
                                 double workShift,
-                                xlsxwriter::Workbook& wb,
+                                xlsxwriter::Worksheet& ws,
                                 ExportComplex_vec &complexes,
                                 size_t& rowPosition)
 {
-    xlsxwriter::Worksheet ws =  wb.worksheets().at(0); //wb.get_worksheet_by_name("ПТК");
-
     xlsxwriter::Column startColumn = 1;
     xlsxwriter::Row startRow = rowPosition;
 
@@ -171,8 +165,12 @@ IMachine *machine::PTK::Copy()
     return nullptr;
 }
 
-void machine::PTK::Processing(xlsxwriter::Workbook& wb)
+void machine::PTK::Processing(std::string_view path)
 {
+    xlsxwriter::Workbook workbook(path.data());
+    auto ws = workbook.add_worksheet("PTK");
+    ws.activate();
+
     size_t cell_x = 1;
     for (auto workWay: earthTransportingLengths)
     {
@@ -192,10 +190,11 @@ void machine::PTK::Processing(xlsxwriter::Workbook& wb)
 //                exportComplex[i++].exportParams = std::move(val);
             }
         }
-        PrepareExportToExel(wb, cell_x);
-        ExportToXlsx(workWay, groundWeight,workShift, wb, exportComplex, cell_x);
+        PrepareExportToExel(ws, cell_x);
+        ExportToXlsx(workWay, groundWeight,workShift, ws, exportComplex, cell_x);
         cell_x += 10;
     }
+    workbook.close();
 }
 
 machine::PTK::~PTK()

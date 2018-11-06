@@ -1,5 +1,6 @@
 from conans import ConanFile, CMake, MSBuild, tools
 import os
+import shutil
 class XlntConan(ConanFile):
     name = "xlsxwriter++"
     version = "1.0"
@@ -8,6 +9,7 @@ class XlntConan(ConanFile):
     url = "https://github.com/Alexhuszagh/libxlsxwriterpp.git"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared" : [True, False]}
+    exports_sources = ["CMakeLists.txt"]
     full_name = "{_name}-{_version}".format(_name = name, _version = version)
     default_options = "shared=False"
     generators = "cmake"
@@ -20,6 +22,7 @@ class XlntConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        shutil.copy("CMakeLists.txt", "libxlsxwriterpp/CMakeLists.txt")
         cmake.configure(source_folder="libxlsxwriterpp")
         #cmake.definitions["CMAKE_CXX_STANDARD"]="17"
         if self.settings.os == "Windows":
@@ -40,5 +43,5 @@ class XlntConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
      
     def package_info(self):
-        self.cpp_info.libs = ["xlsxwriter++"]
+        self.cpp_info.libs = ["xlsxwriter++", "xlsxwriter", "zlib"]
         

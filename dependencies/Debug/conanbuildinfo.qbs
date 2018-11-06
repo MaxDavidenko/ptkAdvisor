@@ -5,18 +5,19 @@ Project {
         name: "ConanBasicSetup"
         Export {
             Depends { name: "cpp" }
-            cpp.includePaths: ["/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include",
-                "/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/include",
-                "/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include"]
-            cpp.libraryPaths: ["/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib",
-                "/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/lib",
-                "/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib"]
+            cpp.includePaths: ["C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include",
+                "C:/.conan/yxhbhem7/1/include",
+                "C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include"]
+            cpp.libraryPaths: ["C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib",
+                "C:/.conan/yxhbhem7/1/lib",
+                "C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib"]
             cpp.systemIncludePaths: []
             cpp.dynamicLibraries: ["tinyxml2d",
-                "log4cplus",
-                "dl",
-                "pthread",
-                "xlsxwriter++"]
+                "log4cplusD",
+                "Ws2_32",
+                "xlsxwriter++",
+                "xlsxwriter",
+                "zlib"]
             cpp.defines: []
             cpp.cppFlags: []
             cpp.cFlags: []
@@ -28,8 +29,8 @@ Project {
         name: "tinyxml2"
         Export {
             Depends { name: "cpp" }
-            cpp.includePaths: ["/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include"]
-            cpp.libraryPaths: ["/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib"]
+            cpp.includePaths: ["C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include"]
+            cpp.libraryPaths: ["C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib"]
             cpp.systemIncludePaths: []
             cpp.dynamicLibraries: ["tinyxml2d"]
             cpp.defines: []
@@ -38,39 +39,40 @@ Project {
             cpp.linkerFlags: []
         }
     }
-    // tinyxml2 root path: /home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
+    // tinyxml2 root path: C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1
 
     Product {
         name: "log4cplus"
         Export {
             Depends { name: "cpp" }
-            cpp.includePaths: ["/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/include"]
-            cpp.libraryPaths: ["/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/lib"]
+            cpp.includePaths: ["C:/.conan/yxhbhem7/1/include"]
+            cpp.libraryPaths: ["C:/.conan/yxhbhem7/1/lib"]
             cpp.systemIncludePaths: []
-            cpp.dynamicLibraries: ["log4cplus",
-                "dl",
-                "pthread"]
+            cpp.dynamicLibraries: ["log4cplusD",
+                "Ws2_32"]
             cpp.defines: []
             cpp.cppFlags: []
             cpp.cFlags: []
             cpp.linkerFlags: []
         }
     }
-    // log4cplus root path: /home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4
+    // log4cplus root path: C:/.conan/yxhbhem7/1
 
     Product {
         name: "xlsxwriter++"
         Export {
             Depends { name: "cpp" }
-            cpp.includePaths: ["/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include"]
-            cpp.libraryPaths: ["/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib"]
+            cpp.includePaths: ["C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include"]
+            cpp.libraryPaths: ["C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib"]
             cpp.systemIncludePaths: []
-            cpp.dynamicLibraries: ["xlsxwriter++"]
+            cpp.dynamicLibraries: ["xlsxwriter++",
+                "xlsxwriter",
+                "zlib"]
             cpp.defines: []
             cpp.cppFlags: []
             cpp.cFlags: []
             cpp.linkerFlags: []
         }
     }
-    // xlsxwriter++ root path: /home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
+    // xlsxwriter++ root path: C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1
 }

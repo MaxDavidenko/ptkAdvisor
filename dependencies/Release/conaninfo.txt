@@ -1,8 +1,8 @@
 [settings]
     arch=x86_64
-    build_type=Debug
+    build_type=Release
     compiler=Visual Studio
-    compiler.runtime=MDd
+    compiler.runtime=MD
     compiler.version=15
     os=Windows
 
@@ -17,17 +17,17 @@
 [full_settings]
     arch=x86_64
     arch_build=x86_64
-    build_type=Debug
+    build_type=Release
     compiler=Visual Studio
-    compiler.runtime=MDd
+    compiler.runtime=MD
     compiler.version=15
     os=Windows
     os_build=Windows
 
 [full_requires]
-    log4cplus/2.0.2@bincrafters/stable:8cf01e2f50fcd6b63525e70584df0326550364e1
-    tinyxml2/6.2.0@nicolastagliani/stable:8cf01e2f50fcd6b63525e70584df0326550364e1
-    xlsxwriter++/1.0@krabio/testing:8cf01e2f50fcd6b63525e70584df0326550364e1
+    log4cplus/2.0.2@bincrafters/stable:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7
+    tinyxml2/6.2.0@nicolastagliani/stable:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7
+    xlsxwriter++/1.0@krabio/testing:6cc50b139b9c3d27b3e9042d5f5372d327b3a9f7
 
 [full_options]
     log4cplus:build_logging_server=False

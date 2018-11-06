@@ -64,14 +64,14 @@ public:
     void ExportToXlsx(double workWay,
                       double groundWeight,
                       double workShift,
-                      xlsxwriter::Workbook& wb,
+                      xlsxwriter::Worksheet& wb,
                       ExportComplex_vec &complexes,
                       size_t &verticalOffset);
     virtual bool Export(std::string_view path) override;
     virtual bool Import(std::string_view path) override;
     virtual IMachine* Copy() override;
     void SetParam(ptkT num, double value);
-    void Processing(xlsxwriter::Workbook &wb);
+    void Processing(std::string_view path);
     virtual ~PTK();
 
 private:

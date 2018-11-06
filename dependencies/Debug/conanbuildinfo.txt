@@ -1,12 +1,12 @@
 [includedirs]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/include
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include
+C:/.conan/yxhbhem7/1/include
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include
 
 [libdirs]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/lib
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib
+C:/.conan/yxhbhem7/1/lib
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib
 
 [bindirs]
 
@@ -15,16 +15,17 @@
 
 
 [builddirs]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/
+C:/.conan/yxhbhem7/1/
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/
 
 [libs]
 tinyxml2d
-log4cplus
-dl
-pthread
+log4cplusD
+Ws2_32
 xlsxwriter++
+xlsxwriter
+zlib
 
 [defines]
 
@@ -46,10 +47,10 @@ xlsxwriter++
 
 
 [includedirs_tinyxml2]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include
 
 [libdirs_tinyxml2]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib
 
 [bindirs_tinyxml2]
 
@@ -58,7 +59,7 @@ xlsxwriter++
 
 
 [builddirs_tinyxml2]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1/
 
 [libs_tinyxml2]
 tinyxml2d
@@ -82,14 +83,14 @@ tinyxml2d
 
 
 [rootpath_tinyxml2]
-/home/max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
+C:/Users/Max/.conan/data/tinyxml2/6.2.0/nicolastagliani/stable/package/8cf01e2f50fcd6b63525e70584df0326550364e1
 
 
 [includedirs_log4cplus]
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/include
+C:/.conan/yxhbhem7/1/include
 
 [libdirs_log4cplus]
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/lib
+C:/.conan/yxhbhem7/1/lib
 
 [bindirs_log4cplus]
 
@@ -98,12 +99,11 @@ tinyxml2d
 
 
 [builddirs_log4cplus]
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4/
+C:/.conan/yxhbhem7/1/
 
 [libs_log4cplus]
-log4cplus
-dl
-pthread
+log4cplusD
+Ws2_32
 
 [defines_log4cplus]
 
@@ -124,14 +124,14 @@ pthread
 
 
 [rootpath_log4cplus]
-/home/max/.conan/data/log4cplus/2.0.2/bincrafters/stable/package/1a651c5b4129ad794b88522bece2281a7453aee4
+C:/.conan/yxhbhem7/1
 
 
 [includedirs_xlsxwriter++]
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/include
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/include
 
 [libdirs_xlsxwriter++]
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/lib
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/lib
 
 [bindirs_xlsxwriter++]
 
@@ -140,10 +140,12 @@ pthread
 
 
 [builddirs_xlsxwriter++]
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423/
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1/
 
 [libs_xlsxwriter++]
 xlsxwriter++
+xlsxwriter
+zlib
 
 [defines_xlsxwriter++]
 
@@ -164,7 +166,7 @@ xlsxwriter++
 
 
 [rootpath_xlsxwriter++]
-/home/max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/69f10d1e6d78c1962fbe8fb80440f32b1fdf8423
+C:/Users/Max/.conan/data/xlsxwriter++/1.0/krabio/testing/package/8cf01e2f50fcd6b63525e70584df0326550364e1
 
 
 [USER_tinyxml2]
